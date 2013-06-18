@@ -136,6 +136,7 @@ function gradenetauth_login_validate( $form, &$form_state )
 
             //update user account info
             db_update( 'users' )->fields( array( 'mail' => $user_info['email'], 'signature' => $user_info['name'] ))
+              
               ->condition( 'uid', $user->uid, '=' )
               ->execute();
             
@@ -207,6 +208,7 @@ function validateExternalUser( $username, $password )
       return $api->authenticate($username,$password);
     }
     catch (Exception $e) {
+      watchdog("Gradenetauth Error",$e->getMessage(), array(), WATCHDOG_ERROR);
       return FALSE;
     }
 }
