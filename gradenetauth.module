@@ -134,6 +134,18 @@ function gradenetauth_login_validate( $form, &$form_state )
             //register or create the user
             user_external_login_register( $username, 'gradenetauth' );
 
+            $account = user_load($user->uid); // Loading account
+            $edit = array(
+              'field_full_name' => array(
+                'und' => array(
+                  0 => array(
+                    'value' => $user_info['name'],
+                  ),
+                ),
+              )
+            );
+            user_save($account, $edit);
+
             //update user account info
             db_update( 'users' )->fields( array( 'mail' => $user_info['email'], 'signature' => $user_info['name'] ))
               
